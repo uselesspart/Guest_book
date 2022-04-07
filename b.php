@@ -1,9 +1,11 @@
 <?php
+    $time = date("Y-m-d H:i:s");
     $first_name_status = empty($_POST["first_name"]);
     $last_name_status = empty($_POST["last_name"]);
     $phone_status = empty($_POST["phone"]);
     $review_status = empty($_POST["review"]);
     $link = mysqli_connect("localhost", "root", "","reviews");
+    $link->set_charset("utf8");
     //First name
     if($first_name_status || $last_name_status || $phone_status || $review_status)
     {
@@ -42,21 +44,32 @@
     }
     if(!$phone_status && !$review_status)
     {
+        $review = $_POST["review"];
         if($mistake) echo "Ошибка в формате номера телефона!<br>";
         if($continue){
             //Проверяем, повторяется ли телефон
-            $sql = "SELECT phone FROM users WHERE(phone == '$phone'))";
+            $sql = "SELECT id FROM users WHERE(phone == '$phone'))";
             $result = mysqli_query($link, $sql);
-            $database = mysqli_fetch_all($result, MYSQLI_ASSOC);
-            if(count($database) == 0)
+            if(!$result) print "BLANK";
+            if($result != false)
             {
-                
-                echo "Ваш отзыв успешно отправлен <br>";
-                echo "Ваше ФИО: <b> $first_name</b><br>";
-                echo "Ваше e-mail:  <b> $last_name</b><br>";
-                echo "Ваш телефон:  <b> $phone</b><br>";
+                $database = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                if(count($database) == 0)
+                {
+                    $sql = "INSERT INTO users SET first_name = '$first_name', last_name = '$last_name', phone = '$phone', review = '$review', time = '$time'";
+                    $result = mysqli_query($link, $sql);
+                    echo "Ваш отзыв успешно отправлен <br>";
+                    echo "Ваше ФИО: <b> $first_name</b><br>";
+                    echo "Ваше e-mail:  <b> $last_name</b><br>";
+                    echo "Ваш телефон:  <b> $phone</b><br>";
+                }
+                else echo "Вы уже оставляли отзыв.<br>";
             }
-            else echo "Вы уже оставляли отзыв.<br>";
+            else
+            {
+                $sql = "INSERT INTO users SET first_name = '$first_name', last_name = '$last_name', phone = '$phone', review = '$review', time = '$time'";
+                $result = mysqli_query($link, $sql);
+            }
         }
     }
 ?>
