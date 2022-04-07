@@ -2,8 +2,10 @@
     $first_name_status = empty($_POST["first_name"]);
     $last_name_status = empty($_POST["last_name"]);
     $phone_status = empty($_POST["phone"]);
+    $review_status = empty($_POST["review"]);
+    $link = mysqli_connect("localhost", "root", "","reviews");
     //First name
-    if($first_name_status || $last_name_status || $phone_status)
+    if($first_name_status || $last_name_status || $phone_status || $review_status)
     {
          echo "Вы заполнили не все поля!";
     }
@@ -16,7 +18,7 @@
             $continue = false;
         }
     }
-    if(!$first_name_status)
+    if(!$first_name_status  && !$review_status)
     {
         if($mistake) echo "Ошибка в формате Имени!<br>";
         $mistake = false;
@@ -27,7 +29,7 @@
             $continue = false;
         }   
     }
-    if(!$last_name_status)
+    if(!$last_name_status && !$review_status)
     {
         if($mistake) echo "Ошибка в формате Фамилии!";
         //Phone number
@@ -38,14 +40,23 @@
             $continue = false;
         }
     }
-    if(!$phone_status)
+    if(!$phone_status && !$review_status)
     {
         if($mistake) echo "Ошибка в формате номера телефона!<br>";
         if($continue){
-            echo "Ваш отзыв успешно отправлен <br>";
-            echo "Ваше ФИО: <b> $first_name</b><br>";
-            echo "Ваше e-mail:  <b> $last_name</b><br>";
-            echo "Ваш телефон:  <b> $phone</b><br>";
+            //Проверяем, повторяется ли телефон
+            $sql = "SELECT phone FROM users WHERE(phone == '$phone'))";
+            $result = mysqli_query($link, $sql);
+            $database = mysqli_fetch_all($result, MYSQLI_ASSOC);
+            if(count($database) == 0)
+            {
+                
+                echo "Ваш отзыв успешно отправлен <br>";
+                echo "Ваше ФИО: <b> $first_name</b><br>";
+                echo "Ваше e-mail:  <b> $last_name</b><br>";
+                echo "Ваш телефон:  <b> $phone</b><br>";
+            }
+            else echo "Вы уже оставляли отзыв.<br>";
         }
     }
 ?>
