@@ -1,4 +1,5 @@
 <?php
+    date_default_timezone_set('Europe/Moscow'); //Часовой пояс - Москва
     $time = date("Y-m-d H:i:s");
     $first_name_status = empty($_POST["first_name"]);
     $last_name_status = empty($_POST["last_name"]);
@@ -47,15 +48,15 @@
         $review = $_POST["review"];
         if($mistake) echo "Ошибка в формате номера телефона!<br>";
         if($continue){
-            //Проверяем, повторяется ли телефон
-            $sql = "SELECT id FROM users WHERE(phone == '$phone'))";
+            //Ищем в базе отзывы с таким же номером телефона
+            $sql = "SELECT * FROM users WHERE phone = '$phone'";
             $result = mysqli_query($link, $sql);
-            if(!$result) print "BLANK";
-            if($result != false)
+            if($result != false)    
             {
                 $database = mysqli_fetch_all($result, MYSQLI_ASSOC);
-                if(count($database) == 0)
+                if(count($database) == 0)   //Если таковых элементов не нашли
                 {
+                    //Отчет о добавленном отзыве
                     $sql = "INSERT INTO users SET first_name = '$first_name', last_name = '$last_name', phone = '$phone', review = '$review', time = '$time'";
                     $result = mysqli_query($link, $sql);
                     echo "Ваш отзыв успешно отправлен <br>";
@@ -63,9 +64,9 @@
                     echo "Ваше e-mail:  <b> $last_name</b><br>";
                     echo "Ваш телефон:  <b> $phone</b><br>";
                 }
-                else echo "Вы уже оставляли отзыв.<br>";
+                else echo "Вы уже оставляли отзыв.<br>";    //В случае потвторения номера
             }
-            else
+            else    //Если база пустая
             {
                 $sql = "INSERT INTO users SET first_name = '$first_name', last_name = '$last_name', phone = '$phone', review = '$review', time = '$time'";
                 $result = mysqli_query($link, $sql);
