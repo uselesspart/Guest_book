@@ -27,7 +27,7 @@
     }
     //Отрисовка таблицы
     echo '<table border = "1"';
-    echo '<tr><td>IP</td><td>System</td><td>Host</td><td>Page</td><td>Time</td>';
+    echo '<tr><td>Имя</td><td>Фамилия</td><td>Номер телефона</td><td>Отзыв</td><td>Время</td>';
     for($i = 0; $i < $n; $i++){
         echo '<tr>';
         for($j = 1; $j <= 5; $j++){
