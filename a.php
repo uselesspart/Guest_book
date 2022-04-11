@@ -1,10 +1,11 @@
 <?php
-    date_default_timezone_set('Europe/Moscow'); //Часовой пояс - Москва
+    date_default_timezone_set('Europe/Moscow');
     //Переменные
     $start_date = date_format(date_create($_POST['start_date']), "Y-m-d H:i:s");
     $end_date = date_format(date_create($_POST['end_date']), "Y-m-d H:i:s");
-    $link = mysqli_connect("localhost", "root", "","reviews"); 
-    $link->set_charset("utf8"); //Устанавливаем кодировку
+    $link = mysqli_connect("localhost", "root", "","reviews");
+    //Устанавливаем кодировку 
+    $link->set_charset("utf8");
     $sql = "SELECT id, first_name, last_name, phone, review, time FROM users WHERE(time > '$start_date' AND time < '$end_date')";
     $result = mysqli_query($link, $sql);
     $database = mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -17,7 +18,8 @@
     //Заполнение массива для таблицы
     if(count($database) == 0) print '<br>Не найдено запросов в выбранный временной промежуток<br>';
     else{
-    $n = $database[count($database)-1]['id'] - $database[0]['id']+1;    //Вычисляем количество найденных отзывов
+    //Вычисляем количество найденных отзывов
+    $n = $database[count($database)-1]['id'] - $database[0]['id']+1;
     for($i = 0; $i < $n; $i++){
         $table[$i][1] = $database[$i]['first_name'];
         $table[$i][2] = $database[$i]['last_name'];

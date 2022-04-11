@@ -1,3 +1,24 @@
+<html>
+    <head>
+        <title>
+            Найденные запросы
+        </title>
+        <style>
+            input{
+                border-radius: 5px;
+                font-size: 20pt;
+                position: relative;
+                left: 40%;
+            }
+            div.feedback{
+                font-size: 20pt;
+                position: absolute;
+                left: 35%;
+                top: 10%;
+            }
+        </style>
+    </head>
+    <body>
 <?php
     //Объявление переменных
     date_default_timezone_set('Europe/Moscow');
@@ -7,8 +28,10 @@
     $phone_status = empty($_POST["phone"]);
     $review_status = empty($_POST["review"]);
     $link = mysqli_connect("localhost", "root", "","reviews");
-    $link->set_charset("utf8"); //Установка кодировки utf8
+    //Установка кодировки utf8
+    $link->set_charset("utf8");
     //Кнопка "Назад"
+    echo '<div class = feedback>';
     echo '<form action = "index.php" method = "post">';
     echo '<input type="button" value="Назад" onclick="history.back()">';
     echo '</form>';
@@ -43,8 +66,10 @@
             $continue = false;
         }
     }
-    /*Удаление префикса из номера телефона
-    для последующего сравнения в запросе SQL*/
+    /*
+    Удаление префикса из номера телефона
+    для последующего сравнения в запросе SQL
+    */
     $short_phone = " ";
     if($phone[0] == "+"){
         for($i = 0; $i < 10; $i++){
@@ -83,4 +108,7 @@
             }
         }
     }
+    echo '</div>';
 ?>
+    </body>
+</html>
