@@ -20,6 +20,28 @@
     </head>
     <body>
 <?php
+    //Скрипт для создания базы
+    $link = mysqli_connect("localhost", "root", "");
+    //Установка кодировки utf8
+    $link->set_charset("utf8");
+    $sql = "SELECT * FROM users";
+    $result = mysqli_query($link, $sql);
+    if($result == false){
+        $sql = "CREATE DATABASE reviews";
+        $result = mysqli_query($link, $sql);
+        $result = mysqli_select_db($link, 'reviews');
+        $sql = "CREATE TABLE users (
+        id int(4) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        first_name varchar(20) CHARACTER SET utf8 DEFAULT NULL,
+        last_name varchar(30) CHARACTER SET utf8 DEFAULT NULL,
+        phone varchar(15) CHARACTER SET utf8 DEFAULT NULL,
+        review varchar(255) CHARACTER SET utf8 DEFAULT NULL, time datetime NOT NULL
+        )";
+        $result = mysqli_query($link, $sql);
+    }
+    else{
+        $result = mysqli_select_db($link, 'reviews');
+    }
     //Объявление переменных
     date_default_timezone_set('Europe/Moscow');
     $time = date("Y-m-d H:i:s");
@@ -27,9 +49,6 @@
     $last_name_status = empty($_POST["last_name"]);
     $phone_status = empty($_POST["phone"]);
     $review_status = empty($_POST["review"]);
-    $link = mysqli_connect("localhost", "root", "","reviews");
-    //Установка кодировки utf8
-    $link->set_charset("utf8");
     //Кнопка "Назад"
     echo '<div class = feedback>';
     echo '<form action = "index.php" method = "post">';
@@ -108,6 +127,7 @@
             }
         }
     }
+    mysqli_close($link);
     echo '</div>';
 ?>
     </body>
