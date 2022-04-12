@@ -26,6 +26,7 @@
     $link->set_charset("utf8");
     $sql = "SELECT * FROM users";
     $result = mysqli_query($link, $sql);
+    //Создание базы в случае ее отсутствия
     if($result == false){
         $sql = "CREATE DATABASE reviews";
         $result = mysqli_query($link, $sql);

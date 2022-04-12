@@ -2,6 +2,9 @@
     <head>
         <title> Книга отзывов</title>
         <style>
+            div.format{
+                font-size: 20pt;
+            }
             div.review
             {
                 font-size: 20pt;
@@ -44,6 +47,10 @@
         </style>
     </head>
     <body>
+        <div class="format">
+        <br> Вводите имя и фамилию кириллицей с большой буквы <br>
+        Номер телефона вводите начиная с +7 или 8 без пробелов<br>
+        </div>
         <form action="b.php" method="post">
             <div class="review">
             Имя <br><input type="text" name="first_name"><br>
