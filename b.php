@@ -21,13 +21,14 @@
     <body>
 <?php
     //Скрипт для создания базы
-    $link = mysqli_connect("localhost", "root", "");
+    $link = mysqli_connect("localhost", "root", "", "reviews");
     //Установка кодировки utf8
     $link->set_charset("utf8");
     $sql = "SELECT * FROM users";
     $result = mysqli_query($link, $sql);
     //Создание базы в случае ее отсутствия
     if($result == false){
+        $link = mysqli_connect("localhost", "root", "");
         $sql = "CREATE DATABASE reviews";
         $result = mysqli_query($link, $sql);
         $result = mysqli_select_db($link, 'reviews');
@@ -86,25 +87,27 @@
             $continue = false;
         }
     }
-    /*
-    Удаление префикса из номера телефона
-    для последующего сравнения в запросе SQL
-    */
-    $short_phone = " ";
-    if($phone[0] == "+"){
-        for($i = 0; $i < 10; $i++){
-            $short_phone[$i] = $phone[$i+2];
-        }
-    }
-    else{
-        for($i = 0; $i < 10; $i++){
-            $short_phone[$i] = $phone[$i+1];
-        }
-    }
     //Запись отзыва в базу
     if(!$phone_status && !$review_status){
         $review = $_POST["review"];
         if($mistake) echo "Ошибка в формате номера телефона!<br>";
+        else{
+            /*
+            Удаление префикса из номера телефона
+            для последующего сравнения в запросе SQL
+            */
+            $short_phone = " ";
+            if($phone[0] == "+"){
+                for($i = 0; $i < 10; $i++){
+                    $short_phone[$i] = $phone[$i+2];
+                }
+            }
+            else{
+                for($i = 0; $i < 10; $i++){
+                    $short_phone[$i] = $phone[$i+1];
+                }
+            }
+        }
         if($continue){
             $sql = "SELECT * FROM users WHERE phone LIKE '%$short_phone%'";
             $result = mysqli_query($link, $sql);
