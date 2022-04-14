@@ -36,7 +36,7 @@
         first_name varchar(20) CHARACTER SET utf8 DEFAULT NULL,
         last_name varchar(30) CHARACTER SET utf8 DEFAULT NULL,
         phone varchar(15) CHARACTER SET utf8 DEFAULT NULL,
-        review varchar(255) CHARACTER SET utf8 DEFAULT NULL, time datetime NOT NULL
+        review text CHARACTER SET utf8 DEFAULT NULL, time datetime NOT NULL
         )";
         $result = mysqli_query($link, $sql);
     }
