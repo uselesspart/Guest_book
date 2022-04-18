@@ -133,8 +133,6 @@
     }
     mysqli_close($link);
     echo '</div>';
-    header("Location: index.php");
-    die();
 ?>
     </body>
 </html>
