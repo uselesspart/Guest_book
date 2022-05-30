@@ -21,13 +21,9 @@
     <body>
 <?php
     //Скрипт для создания базы
-    $link = mysqli_connect("localhost", "root", "", "reviews");
-    //Установка кодировки utf8
-    $link->set_charset("utf8");
-    $sql = "SELECT * FROM users";
-    $result = mysqli_query($link, $sql);
-    //Создание базы в случае ее отсутствия
-    if($result == false){
+    try{
+        $link = mysqli_connect("localhost", "root", "", "reviews");
+    } catch(Exception $e){
         $link = mysqli_connect("localhost", "root", "");
         $sql = "CREATE DATABASE reviews";
         $result = mysqli_query($link, $sql);
@@ -39,11 +35,12 @@
         phone varchar(15) CHARACTER SET utf8 DEFAULT NULL,
         review text CHARACTER SET utf8 DEFAULT NULL, time datetime NOT NULL
         )";
-        $result = mysqli_query($link, $sql);
+        $result = mysqli_query($link, $sql); 
     }
-    else{
-        $result = mysqli_select_db($link, 'reviews');
-    }
+    //Установка кодировки utf8
+    $link->set_charset("utf8");
+    $sql = "SELECT * FROM users";
+    $result = mysqli_query($link, $sql);
     //Объявление переменных
     date_default_timezone_set('Europe/Moscow');
     $time = date("Y-m-d H:i:s");

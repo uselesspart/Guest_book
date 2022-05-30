@@ -3,19 +3,23 @@
     //Переменные
     $start_date = date_format(date_create($_POST['start_date']), "Y-m-d H:i:s");
     $end_date = date_format(date_create($_POST['end_date']), "Y-m-d H:i:s");
-    $link = mysqli_connect("localhost", "root", "","reviews");
-    //Устанавливаем кодировку 
-    $link->set_charset("utf8");
-    $sql = "SELECT id, first_name, last_name, phone, review, time FROM users WHERE(time > '$start_date' AND time < '$end_date')";
-    $result = mysqli_query($link, $sql);
+    try{
+        $link = mysqli_connect("localhost", "root", "", "reviews");
+        //Устанавливаем кодировку 
+        $link->set_charset("utf8");
+        $sql = "SELECT id, first_name, last_name, phone, review, time FROM users WHERE(time > '$start_date' AND time < '$end_date')";
+        $result = mysqli_query($link, $sql);
+    } catch(Exception $e){
+        $result = false;
+    }
+    echo '<div class=container1>';
+    echo '<form action = "index.php" method = "post">';
+    //Кнопка "Назад"
+    echo '<input type="button" value="Назад" onclick="history.back()">';
+    echo '</form>';
     if($result != false){
         $database = mysqli_fetch_all($result, MYSQLI_ASSOC);
         $table = array(array());
-        echo '<div class=container1>';
-        echo '<form action = "index.php" method = "post">';
-        //Кнопка "Назад"
-        echo '<input type="button" value="Назад" onclick="history.back()">';
-        echo '</form>';
         //Заполнение массива для таблицы
         if(count($database) == 0) print '<br>Не найдено запросов в выбранный временной промежуток<br>';
         else{
