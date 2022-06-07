@@ -58,6 +58,7 @@
          echo "Вы заполнили не все поля!";
     }
     else{
+        //Проверка имени
         $continue = true;
         $mistake = false;
         $first_name = $_POST["first_name"];
@@ -68,6 +69,7 @@
     }
     if(!$first_name_status  && !$review_status){
         if($mistake) echo "Ошибка в формате Имени!<br>";
+        //Проверка фамилии
         $mistake = false;
         $last_name = $_POST["last_name"];
         if(!preg_match('/^[А-Я]+[а-я]*$/u', $last_name)){
@@ -77,6 +79,7 @@
     }
     if(!$last_name_status && !$review_status){
         if($mistake) echo "Ошибка в формате Фамилии!";
+        //Проверка телефона
         $mistake = false;
         $phone = $_POST["phone"];
         if ((!preg_match('/^[8][0-9]{10,10}+$/', $phone)) && (!preg_match('/^[+][7][0-9]{10,10}+$/', $phone))){
@@ -110,8 +113,8 @@
             $result = mysqli_query($link, $sql);
             if($result != false){
                 $database = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                //Проверка повторения номера телефона
                 if(count($database) == 0){
-                    //Проверка повторения номера телефона
                     $sql = "INSERT INTO users SET first_name = '$first_name', last_name = '$last_name', phone = '$phone', review = '$review', time = '$time'";
                     $result = mysqli_query($link, $sql);
                     echo "Ваш отзыв успешно отправлен <br>";

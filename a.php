@@ -1,8 +1,10 @@
 <?php
+    //Часовой пояс
     date_default_timezone_set('Europe/Moscow');
-    //Переменные
+    //Получаем переменные
     $start_date = date_format(date_create($_POST['start_date']), "Y-m-d H:i:s");
     $end_date = date_format(date_create($_POST['end_date']), "Y-m-d H:i:s");
+    //Пытаемся найти нашу базу данных
     try{
         $link = mysqli_connect("localhost", "root", "", "reviews");
         //Устанавливаем кодировку 
@@ -12,9 +14,9 @@
     } catch(Exception $e){
         $result = false;
     }
+    //Кнопка "Назад"
     echo '<div class=container1>';
     echo '<form action = "index.php" method = "post">';
-    //Кнопка "Назад"
     echo '<input type="button" value="Назад" onclick="history.back()">';
     echo '</form>';
     if($result != false){
